@@ -3,6 +3,7 @@ import ImagePlacement from "../../components/profiles/ImagePlacement"
 import { Spinner, SVGLocker } from "../../components/static/Statics"
 import { useState } from "react"
 import axios from "axios"
+import { validateEntries } from "../../../lib/serverFunctions"
 
 export default function Page() {
   const [phoneNum, setPhoneNum] = useState('')
@@ -16,12 +17,20 @@ export default function Page() {
       setLoading(true)
       const formData = new FormData(e.currentTarget)
       formData.append('imageFile', imageFile)
+      const isValid = validateEntries(formData)
+      if(!isValid) {
+        setStatus({
+          message: 'املأ كل البيانات',
+          status: 404
+        })
+        return
+      }
       const response = await axios.post('/api/profile', formData)
-
       setStatus({
         message: response.data,
         status: response.status
       })
+      console.log(resStatus)
     } catch (error) {
       setStatus({
         message: 'حاول مره اخرى',

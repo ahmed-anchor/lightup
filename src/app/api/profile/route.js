@@ -8,7 +8,6 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   try {
     const data = await req.formData();
-    console.log(data);
     await connectDB();
 
     const formData = Object.fromEntries(data);
@@ -22,7 +21,7 @@ export async function POST(req) {
         { message: 'املأ كل البينات' },
         { status: 300 }
       );
-    }
+    };
 
     if (phone.length < 11 || phone.length > 11) {
       return NextResponse.json(
@@ -81,7 +80,7 @@ export async function POST(req) {
 
 
 
-export default async function GET () {
+export async function GET() {
   try {
     await connectDB();
     const data = await ProfileModel.find().select('-password');
