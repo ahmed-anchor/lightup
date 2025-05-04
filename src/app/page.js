@@ -23,7 +23,6 @@ export default function page() {
            >
             البدء
           </button>
-        {/* <button className='text-2xl p-3 font-bigX bg-yellow-400 rounded-md text-white mt-64'>اضغط هنا</button> */}
       </div>
     </>
   )

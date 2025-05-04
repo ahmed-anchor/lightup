@@ -77,3 +77,19 @@ export async function POST(req) {
     );
   }
 }
+
+
+
+
+export default async function GET () {
+  try {
+    await connectDB();
+    const data = await ProfileModel.find().select('-password');
+    return NextResponse.json(data)
+  } catch(error) {
+    return NextResponse.json(
+      { message: 'مشكله في السرفر' },
+      { status: 404 },
+    );
+  }
+}

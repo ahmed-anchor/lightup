@@ -17,10 +17,16 @@ export default function Page() {
       const formData = new FormData(e.currentTarget)
       formData.append('imageFile', imageFile)
       const response = await axios.post('/api/profile', formData)
-      console.log(response)
-      setStatus(response)
+
+      setStatus({
+        message: response.data,
+        status: response.status
+      })
     } catch (error) {
-      console.log(error.data)
+      setStatus({
+        message: 'حاول مره اخرى',
+        status: 404
+      })
     } finally {
       setLoading(false)
     }
@@ -85,15 +91,12 @@ export default function Page() {
           </div>
           {
             loading ?
-              <Spinner /> :
+              <Spinner spinnerSize="64" spinnerColor="white" /> :
               <button 
                 className=" text-white font-bigX text-4xl bg-violet-900 rounded-lg px-4 mt-10"
               >
                 تسجيل
               </button>
-          }
-          {
-            // Placeholder for future conditional rendering if needed
           }
         </div>
       </form>

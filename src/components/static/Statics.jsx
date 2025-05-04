@@ -1,26 +1,20 @@
 'use client';
 import React from 'react';
 
-export const Spinner = ({
-  spinnerColor = 'red',
-  spinnerSize = '8',
-  fillScreen = false,
-}) => {
+export const Spinner = ({ SpinnerSize = 8, SpinnerColor = 'blue-600' }) => {
+  const size = `w-${SpinnerSize} h-${SpinnerSize}`;
+  
   return (
-    <div
-      className={`
-        inline-block 
-        w-${spinnerSize} h-${spinnerSize}
-        border-4 border-t-transparent border-${spinnerColor}-500 border-solid 
-        rounded-full 
-        animate-spin
-        ${fillScreen ? 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' : ''}
-      `}
-      role="status"
-      aria-label="Loading"
-    />
+    <div className={`inline-block ${size} animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite]`}
+      role="status">
+      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+        Loading...
+      </span>
+    </div>
   );
 };
+
+export default Spinner;
 
 export const Logo = () => {
   return (
