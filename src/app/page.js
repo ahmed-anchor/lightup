@@ -1,7 +1,7 @@
 'use client'
 import ButtonsCollection from '../components/buttons/ButtonsCollection'
 import ModelViewer from '../components/model/ModelViewer'
-import { useState } from 'react'
+import { useState } from 'react';
 
 export default function page() {
   const [clickState, setClickState] = useState(false);

@@ -1,20 +1,23 @@
 'use client';
 import React from 'react';
 
-export const Spinner = ({ SpinnerSize = 8, SpinnerColor = 'blue-600' }) => {
-  const size = `w-${SpinnerSize} h-${SpinnerSize}`;
+export const Spinner = ({ spinnerColor = 'blue-600' }) => {
   
   return (
-    <div className={`inline-block ${size} animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite]`}
-      role="status">
-      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-        Loading...
-      </span>
-    </div>
+    <div 
+      className={`
+        w-8 h-8
+        animate-spin rounded-full
+        border-4 border-solid border-current border-e-transparent
+        align-[-0.125em] text-surface
+        motion-reduce:animate-[spin_1.5s_linear_infinite]
+        text-${spinnerColor}
+      `}
+      role="status"
+    />
   );
 };
 
-export default Spinner;
 
 export const Logo = () => {
   return (
@@ -32,7 +35,7 @@ export const Logo = () => {
         fill="#ffea00"
       />
       <path
-        d="M26.4 33.6c... (path content omitted for brevity)"
+        d="M26.4 33.6c..."
         fill="#c79127"
       />
       <g fill="#94989b">
@@ -122,9 +125,45 @@ export const SVGClient = () => (
 
 export const SVGSingIn = () => {
   return (
-    <svg viewBox="0 0 20 20" fill="currentColor" className="size-6 mt-2 mr-1">
-      {/* Add your path details here if needed */}
-      <path d="..." />
+    <svg 
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className="size-6 mt-2 mr-2"
+    >
+      <path 
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+      />
     </svg>
+
   );
 };
+
+
+export const SVGOrder = () => {
+  return(
+    <svg
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className="size-6 mt-2 mr-2"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+    </svg>
+
+  )
+}
+
+
+export const SVGPhone = () => {
+  return (
+  <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-6 inline mr-4 mb-1">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+  </svg>
+
+  )
+}

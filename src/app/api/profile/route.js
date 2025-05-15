@@ -4,17 +4,16 @@ import sharp from "sharp";
 import path from "path";
 import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { randomBytes } from "crypto";
+
 
 export async function POST(req) {
   try {
     const data = await req.formData();
     await connectDB();
 
-    const formData = Object.fromEntries(data);
-    const phone = formData.phone;
-    const name = formData.name;
-    const password = formData.password;
-    const imageFile = formData.imageFile;
+    const { phone, name, password, imageFile } = Object.fromEntries(data);
 
     if (!phone || !name || !password || !imageFile) {
       return NextResponse.json(
@@ -23,9 +22,16 @@ export async function POST(req) {
       );
     };
 
-    if (phone.length < 11 || phone.length > 11) {
+    if (checkFirstThreeChars(phone)) {
       return NextResponse.json(
         { message: 'الرقم خاطئ' },
+        { status: 300 }
+      );
+    }
+
+    if (password.length <= 8) {
+      return NextResponse.json(
+        { message: 'الرقم يجب الا يقل عن 8 رموز' },
         { status: 300 }
       );
     }
@@ -43,9 +49,9 @@ export async function POST(req) {
     const buffer = Buffer.from(await imageFile.arrayBuffer());
     const outputBuffer = await sharp(buffer)
       .resize({
-        width: 1500,
-        height: 320,
-        fit: "inside",
+        width: 1024,
+        height: 1024,
+        fit: "cover",
         position: "center",
         withoutEnlargement: true
       })
@@ -58,17 +64,36 @@ export async function POST(req) {
     const filePath = path.join(process.cwd(), "public", "profiles", phone.trim() + '.webp');
     await writeFile(filePath, outputBuffer);
 
+    const token = randomBytes(20).toString('hex');
+
+    cookies().set('session', token, { 
+      expires: new Date(Date.now() + 4 * 60 * 60 * 1000), // 4 hours
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: true
+    });
+
+    cookies().set('phone', phone, { 
+      expires: new Date(Date.now() + 4 * 60 * 60 * 1000), // 4 hours
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: true
+    });
+
     await ProfileModel.create({
       phone: phone.trim(),
       name: name.trim(),
       password: password.trim(),
+      token: token,
       imagePath: `/profiles/${phone.trim()}.webp`
     });
 
+    
     return NextResponse.json(
       { message: 'تم ارسال البيانات بنجاح' },
       { status: 200 }
     );
+    
   } catch (error) {
     return NextResponse.json(
       { message: 'خطأاثنا ارسال البيانات' },
@@ -76,8 +101,6 @@ export async function POST(req) {
     );
   }
 }
-
-
 
 
 export async function GET() {
@@ -92,3 +115,17 @@ export async function GET() {
     );
   }
 }
+
+
+
+function checkFirstThreeChars(str) {
+  if(str.length < 11 || str.length > 11) return true
+  const validPrefixes = ['010', '012', '011', '011'];
+  const prefix = str.slice(0, 3); // or str.substring(0, 3)
+  return !validPrefixes.includes(prefix);
+}
+
+
+
+
+

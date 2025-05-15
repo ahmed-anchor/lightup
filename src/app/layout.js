@@ -3,7 +3,7 @@ import "./globals.css";
 import NavigationBar from "../components/accessiblity/NavigationBar";
 
 const bigX = localFont({
-  src: "./fonts/HEKAYA.otf",
+  src: "./fonts/local-font.otf",
   variable: "--font-bigX",
   weight: "100 900",
 });

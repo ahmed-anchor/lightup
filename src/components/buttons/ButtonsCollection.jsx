@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import Link from "next/link"
-import { SVGClient, SVGCode, SVGSingIn } from "../static/Statics"
+import { SVGClient, SVGCode, SVGOrder, SVGSingIn } from "../Statics"
 
 export default function ButtonsCollection({ handleCard }) {
 
@@ -31,15 +31,16 @@ export default function ButtonsCollection({ handleCard }) {
       ref={elementRef}
     >
       <div className="flex flex-col gap-10 lg:flex-row lg:w-full lg:justify-center lg:items-center">
-        <button
+        <Link
+          href='/'
           className="bg-purple-950 pb-2 text-yellow-200 text-4xl items-center justify-center min-w-[300px] flex max-h-9 overflow-visible rounded w-fit"
           onClick={() => handleCard(true)}
         >
           <SVGClient />اختيار مستقل حر
-        </button>
+        </Link>
         <Link
           className="bg-yellow-300 pb-2 text-purple-800 text-4xl items-center justify-center min-w-[300px] flex max-h-9 overflow-visible rounded w-fit"
-          href='/signin'
+          href='/profile'
         >
           <SVGSingIn /> التسجيل كمستقل
         </Link>
@@ -55,7 +56,7 @@ export default function ButtonsCollection({ handleCard }) {
           className="bg-violet-950 pb-2 text-yellow-200 text-4xl items-center justify-center min-w-[300px] flex max-h-9 overflow-visible rounded w-fit"
           onClick={() => handleCard(true)}
         >
-          عرض طلب
+        <SVGOrder /> عرض طلب
         </button>
       </div>
     </div>
