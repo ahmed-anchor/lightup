@@ -1,10 +1,10 @@
 import LoginForm from "@/components/forms/LoginForm";
 import UserProfile from "@/components/interfaces/UserProfile";
-import { checkCookies } from "../../../../lib/serverFunctions";
+import { loginWithCookies } from "../../../../lib/serverFunctions";
 
 export default async function page() {
   
-  const user = await checkCookies();
+  const user = await loginWithCookies();
 
   if(!user) return <LoginForm />
 
