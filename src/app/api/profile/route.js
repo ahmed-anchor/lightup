@@ -1,9 +1,8 @@
 import connectDB from "../../../../lib/database";
 import ProfileModel from "../../../../models/profileModel";
-import sharp from "sharp";
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { randomBytes } from "crypto";
+import { isValidData, setCookies, optimizeImage } from "../../../../lib/serverFunctions";
+
 
 
 export async function POST(req) {
@@ -11,74 +10,25 @@ export async function POST(req) {
     const data = await req.formData();
     await connectDB();
 
-    const { phone, name, password, imageFile } = Object.fromEntries(data);
+    const { phone, name, password, imageFile } = Object.fromEntries(data)
 
-    if (!phone || !name || !password || !imageFile) {
+    const isValid = isValidData(Object.fromEntries(data))
+    if(!isValid.valid) return isValid.res
+
+    const checker = await ProfileModel
+    .findOne({ phone: phone.trim() })
+    .select('name -_id')
+    .lean();
+    if (checker) {
       return NextResponse.json(
-        { message: 'املأ كل البينات' },
+        { message: `هذا الرقم بالفعل موجود بإسم ${name}` },
         { status: 300 }
       );
     };
 
-    if (checkFirstThreeChars(phone)) {
-      return NextResponse.json(
-        { message: 'الرقم خاطئ' },
-        { status: 300 }
-      );
-    }
+    const outputBuffer = await optimizeImage(imageFile)
 
-    if (password.length <= 8) {
-      return NextResponse.json(
-        { message: 'الرقم يجب الا يقل عن 8 رموز' },
-        { status: 300 }
-      );
-    }
-
-    const checker = await ProfileModel.find().select('phone -_id').lean();
-    const res = checker.some(user => user.phone === phone);
-
-
-    if (res) {
-      return NextResponse.json(
-        { message: 'هذا الرقم بالفعل موجود' },
-        { status: 300 }
-      )
-    }
-
-    const buffer = Buffer.from(await imageFile.arrayBuffer());
-    const outputBuffer = await sharp(buffer)
-      .resize({
-        width: 1024,
-        height: 1024,
-        fit: "cover",
-        position: "center",
-        withoutEnlargement: true
-      })
-      .webp({
-        quality: 80,
-        effort: 6,
-      })
-      .toBuffer();
-
-
-
-    const token = randomBytes(20).toString('hex');
-
-    cookies().set('session', token, 
-    { 
-      expires: new Date(Date.now() + 4 * 60 * 60 * 1000), // 4 hours
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: true
-    });
-
-    cookies().set('phone', phone, 
-    { 
-      expires: new Date(Date.now() + 4 * 60 * 60 * 1000), // 4 hours
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: true
-    });
+    const token = setCookies({ phone })
 
     await ProfileModel.create({
       phone: phone.trim(),
@@ -88,7 +38,6 @@ export async function POST(req) {
       image: outputBuffer
     });
 
-    
     return NextResponse.json(
       { message: 'تم ارسال البيانات بنجاح' },
       { status: 200 }
@@ -119,12 +68,7 @@ export async function GET() {
 
 
 
-function checkFirstThreeChars(str) {
-  if(str.length < 11 || str.length > 11) return true
-  const validPrefixes = ['010', '012', '011', '011'];
-  const prefix = str.slice(0, 3); // or str.substring(0, 3)
-  return !validPrefixes.includes(prefix);
-}
+
 
 
 

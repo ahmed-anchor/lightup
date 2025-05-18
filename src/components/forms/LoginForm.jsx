@@ -40,7 +40,7 @@ export default function LoginForm() {
       setLoading(true)
       const response = await axios.post(
         '/api/profile/login',
-        { phone: phoneNumber, password },
+        { phoneNum: phoneNumber, password },
         { headers: { 'Content-Type': 'application/json' } }
       );
 
