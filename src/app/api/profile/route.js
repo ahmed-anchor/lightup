@@ -20,14 +20,6 @@ export async function POST(req) {
       );
     };
 
-    console.log(imageFile)
-    // if(!imageFile.type.startWith('image/')) {
-    //   return NextResponse.json(
-    //     { message: 'هذه ليست صوره' },
-    //     { status: 300 }
-    //   )
-    // }
-
     if (checkFirstThreeChars(phone)) {
       return NextResponse.json(
         { message: 'الرقم خاطئ' },
