@@ -9,11 +9,11 @@ const profileSchema = new Schema({
   name: { type: String, required: true },
   phone: { type: String, required: true },
   password: { type: String, required: true },
-  imagePath: { type: String, required: true },
+  image: { type: Buffer, required: true },
   token: { type: String, required: true },
   netWorth: { type: Number, default: 0 },
-  projects: { 
-    type: [projectSchema], 
+  projects: {
+    type: [projectSchema],
     default: []
   }
 });

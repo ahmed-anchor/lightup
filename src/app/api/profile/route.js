@@ -1,8 +1,6 @@
 import connectDB from "../../../../lib/database";
 import ProfileModel from "../../../../models/profileModel";
 import sharp from "sharp";
-import path from "path";
-import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { randomBytes } from "crypto";
@@ -22,6 +20,14 @@ export async function POST(req) {
       );
     };
 
+    console.log(imageFile)
+    // if(!imageFile.type.startWith('image/')) {
+    //   return NextResponse.json(
+    //     { message: 'هذه ليست صوره' },
+    //     { status: 300 }
+    //   )
+    // }
+
     if (checkFirstThreeChars(phone)) {
       return NextResponse.json(
         { message: 'الرقم خاطئ' },
@@ -39,11 +45,12 @@ export async function POST(req) {
     const checker = await ProfileModel.find().select('phone -_id').lean();
     const res = checker.some(user => user.phone === phone);
 
+
     if (res) {
       return NextResponse.json(
         { message: 'هذا الرقم بالفعل موجود' },
         { status: 300 }
-      );
+      )
     }
 
     const buffer = Buffer.from(await imageFile.arrayBuffer());
@@ -61,19 +68,20 @@ export async function POST(req) {
       })
       .toBuffer();
 
-    const filePath = path.join(process.cwd(), "public", "profiles", phone.trim() + '.webp');
-    await writeFile(filePath, outputBuffer);
+
 
     const token = randomBytes(20).toString('hex');
 
-    cookies().set('session', token, { 
+    cookies().set('session', token, 
+    { 
       expires: new Date(Date.now() + 4 * 60 * 60 * 1000), // 4 hours
       httpOnly: true,
       sameSite: 'strict',
       secure: true
     });
 
-    cookies().set('phone', phone, { 
+    cookies().set('phone', phone, 
+    { 
       expires: new Date(Date.now() + 4 * 60 * 60 * 1000), // 4 hours
       httpOnly: true,
       sameSite: 'strict',
@@ -85,7 +93,7 @@ export async function POST(req) {
       name: name.trim(),
       password: password.trim(),
       token: token,
-      imagePath: `/profiles/${phone.trim()}.webp`
+      image: outputBuffer
     });
 
     
@@ -106,7 +114,8 @@ export async function POST(req) {
 export async function GET() {
   try {
     await connectDB();
-    const data = await ProfileModel.find().select('-password');
+    const data = await ProfileModel.find().select('-password').lean();
+
     return NextResponse.json(data)
   } catch(error) {
     return NextResponse.json(

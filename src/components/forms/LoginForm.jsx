@@ -10,8 +10,7 @@ export default function LoginForm() {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState(''); // 'success' or 'error'
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false)
-
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     if(success) {
@@ -22,9 +21,7 @@ export default function LoginForm() {
       const timer = setTimeout(() => setMessage(''), 2000);
       return () => clearTimeout(timer);
     }
-
   }, [message]);
-
 
   const handlePhoneNumberChange = (e) => {
     const cleanedValue = e.target.value.replace(/[^0-9]/g, '');
