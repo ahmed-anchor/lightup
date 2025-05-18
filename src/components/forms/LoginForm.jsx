@@ -14,7 +14,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if(success) {
-      const timer = setTimeout(() => window.location.reload(), 2500);
+      const timer = setTimeout(() => window.location.reload(), 100);
       return () => clearTimeout(timer);
     }
     if (message) {
