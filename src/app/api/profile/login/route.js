@@ -1,5 +1,5 @@
 import connectDB from "../../../../../lib/database";
-import { refreshToken, isValidPhoneNum, setCookies } from "../../../../../lib/serverFunctions";
+import { isValidPhoneNum, setCookies } from "../../../../../lib/serverFunctions";
 import ProfileModel from "../../../../../models/profileModel";
 import { NextResponse } from "next/server";
 
@@ -7,20 +7,20 @@ export async function POST(req) {
   try {
 
     const data = await req.json();
-    const { phoneNum, password } = data
+    const { phone, password } = data
   
     //connecting to database
     await connectDB();
 
     // checking if there's a data
-    if( !phoneNum || !password ) {
+    if( !phone || !password ) {
       return NextResponse.json(
         { message: 'يرجى ملء جميع البيانات المطلوبة' },
         { status: 400 }
       );
     }
 
-    if(!isValidPhoneNum(phoneNum)) {
+    if(!isValidPhoneNum(phone)) {
       return NextResponse.json(
         { message: 'رقم الهاتف غير صحيح' },
         { status: 400 }
@@ -28,30 +28,30 @@ export async function POST(req) {
     }
 
     // Find user and exclude password
-    const { phone, _id } = await ProfileModel.findOne(
+    const user = await ProfileModel.findOne(
       {
-        phone: phoneNum,
+        phone: phone,
         password: password
       },
     )
     .select('phone')
     .lean()
 
-    if(!phone || !_id) {
+
+    if(!user) {
       return NextResponse.json(
         { message: 'كلمه المرور او رقم الهاتف خطا' },
         { status: 404 }
       )
     }
 
-    const refreshed = await refreshToken({ phone, _id })
+    const token = setCookies({ phone: user.phone })
 
-    if(!refreshed) {
-      return NextResponse.json(
-        { message: 'حدث خطا اثناء تسجيل الدخول' },
-        { status: 400 }
-      )
-    }
+    await ProfileModel.findOneAndUpdate(
+      { _id: user._id },
+      { $set: { token: token } }
+    );
+
 
     return NextResponse.json(
       { message: 'تم تسجيل الدخول' },

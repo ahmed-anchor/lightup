@@ -3,8 +3,6 @@ import ProfileModel from "../../../../models/profileModel";
 import { NextResponse } from "next/server";
 import { isValidData, setCookies, optimizeImage } from "../../../../lib/serverFunctions";
 
-
-
 export async function POST(req) {
   try {
     const data = await req.formData();
