@@ -8,7 +8,6 @@ export async function POST(req) {
 
     const data = await req.json();
     const { phone, password } = data
-  
     //connecting to database
     await connectDB();
 
@@ -28,14 +27,8 @@ export async function POST(req) {
     }
 
     // Find user and exclude password
-    const user = await ProfileModel.findOne(
-      {
-        phone: phone,
-        password: password
-      },
-    )
+    const user = await ProfileModel.findOne( data )
     .select('phone')
-    .lean()
 
 
     if(!user) {
