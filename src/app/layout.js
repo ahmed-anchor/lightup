@@ -21,7 +21,7 @@ export const metadata = {
   openGraph: {
     title: "Light UP -  لايت اب",
     description: "لايت اب هي منصه تساعدك علي تنفيذ مشاريع powerpoint, word office, etc.....",
-    images: [{url: '/blackLamp.JPEG'}],
+    images: [{url: '/blackLamp.jpeg'}],
   },
 };
 
