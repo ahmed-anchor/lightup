@@ -81,7 +81,7 @@ export default function page() {
   }, [])
 
   return (
-    <div className='min-h-screen w-full flex lg:flex-row flex-col font-robert items-start lg:items-center font-bold text-white gap-y-13'>
+    <div className='min-h-screen w-full flex lg:flex-row flex-col font-robert items-start lg:items-center text-white gap-y-13'>
       <NavigationBar />
       <div className='flex flex-col'>
         <h1
@@ -97,24 +97,24 @@ export default function page() {
           UP
         </h1>
       </div>
-      <ul className='font-robert flex text-3xl flex-col justify-center lg:w-fit w-full items-end pr-12 lg:pl-60 xl:pl-[400px] -mb-64 mt-12 gap-y-3'>
+      <ul className=' font-robert font-medium flex text-3xl flex-col justify-center lg:w-fit w-full items-end pr-12 lg:pl-60 xl:pl-[400px] -mb-64 mt-12 gap-y-3'>
         <Link
           href='/profile/login'
           className='bg-black'
         >
-          LOGIN
+          Jobs
         </Link>
         <Link
           href='/profile/sign'
           className='bg-black'
         >
-          SING IN
+          Ai Services
         </Link>
         <Link
           href='/profile'
           className='bg-black'
         >
-          PROFILE
+          Profile
         </Link>
       </ul>
     </div>
