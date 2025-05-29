@@ -19,10 +19,15 @@
   }
 }
 
+html {
+  height: --webkit-fill-available;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  height: --webkit-fill-available;
 }
 
 @layer utilities {

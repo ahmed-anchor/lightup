@@ -86,7 +86,7 @@ export default function page() {
       <div className='flex flex-col'>
         <h1
           ref={lightRef}
-          className='sm:mt-16 lg:-mt-16 mt-64 ml-2 sm:text-[200px] text-[110px] mix-blend-overlay'
+          className='sm:mt-16 lg:-mt-16 mt-40 ml-2 sm:text-[200px] text-[110px] mix-blend-overlay'
         >
           LIGHT
         </h1>
@@ -99,13 +99,13 @@ export default function page() {
       </div>
       <ul className='font-robert flex text-3xl flex-col justify-center lg:w-fit w-full items-end pr-12 lg:pl-44 -mb-64 mt-12 gap-y-3'>
         <Link
-          href='/login'
+          href='/profile/login'
           className='bg-black'
         >
           LOGIN
         </Link>
         <Link
-          href='sign'
+          href='/profile/sign'
           className='bg-black'
         >
           SING IN
