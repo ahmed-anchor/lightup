@@ -105,7 +105,7 @@ export const GhostIcon = ({ fill = "#000000", size = 70 }) => {
       viewBox="0 0 70 70"
       enableBackground="new 0 0 70 70"
       xmlSpace="preserve"
-      className="absolute bottom-16 left-4 rounded-3xl"
+      className="absolute bottom-0 left-4 rounded-3xl"
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
