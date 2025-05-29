@@ -1,5 +1,5 @@
 'use client'
-import { Spinner, SVGLocker, SVGProfile } from "../Statics"
+import { Spinner, SVGLocker, SVGPhone, SVGProfile } from "../Statics"
 import { useState, useEffect, useRef } from "react"
 import axios from "axios"
 
@@ -146,7 +146,7 @@ export default function SignInForm() {
         ">
           <div className="flex flex-col w-full items-center">
             <label htmlFor="name" className="w-full font-bigX text-2xl text-white mr-24 mb-2 sm:mr-36">
-              وضع اسمك
+            اسمك
             </label>
             <input
               type="text" 
@@ -159,7 +159,7 @@ export default function SignInForm() {
 
           <div className="flex flex-col w-full items-center">
             <label htmlFor="phone" className="w-full font-bigX text-2xl text-white mr-24 mb-2 sm:mr-36">
-              وضع رقم الهاتف
+               رقم الهاتف<SVGPhone />
             </label>
             <input
               type='tel'
@@ -178,7 +178,7 @@ export default function SignInForm() {
 
           <div className="flex flex-col w-full items-center">
             <label htmlFor="password" className="w-full font-bigX text-2xl flex items-center gap-3 text-white mr-24 mb-2 sm:mr-36">
-              وضع كلمة مرور <SVGLocker />
+              كلمة مرور <SVGLocker />
             </label>
             <input
               type="password" 

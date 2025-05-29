@@ -34,3 +34,16 @@ body {
 .profile-glow {
   box-shadow: 0 0 40px -1px #3d2e87;
 }
+
+
+.gradient-top {
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, .1) 30%,
+    rgba(255, 255, 255, 0.3 ) 50%,
+    rgba(255, 255, 255, 0.4) 60%,
+    rgb(236, 235, 232, 0.87) 92%,
+    rgb(236, 235, 232) 100%
+  );
+}

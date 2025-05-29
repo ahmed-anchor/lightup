@@ -50,25 +50,40 @@ export async function POST(req) {
 }
 
 
+
 export async function GET() {
   try {
     await connectDB();
-    const data = await ProfileModel.find().select('-password').lean();
+    const data = await ProfileModel.find().select('-password -netWorth').lean();
+    if (data.length === 0) {
+      return NextResponse.json(
+        { message: 'لا يوجد بيانات' },
+        { status: 404 }
+      );
+    }
 
-    return NextResponse.json(data)
+    const workers = data.map((worker) => {
+      return {
+        _id: worker._id.toString(),
+        name: worker.name,
+        phone: worker.phone,
+        image: `data:image/jpeg;base64,${worker.image.buffer.toString('base64')}`
+      }
+    });
+
+    
+
+    return NextResponse.json(
+      workers,
+      { status: 200 }
+    );
   } catch(error) {
+    console.log(error)
     return NextResponse.json(
       { message: 'مشكله في السرفر' },
       { status: 404 },
     );
   }
 }
-
-
-
-
-
-
-
 
 

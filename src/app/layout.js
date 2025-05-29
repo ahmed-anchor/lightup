@@ -1,10 +1,17 @@
 import localFont from "next/font/local";
 import "./globals.css";
-import NavigationBar from "../components/accessiblity/NavigationBar";
+import { BackgroundGrid, GhostIcon } from "@/components/Statics";
+
 
 const bigX = localFont({
   src: "./fonts/local-font.otf",
   variable: "--font-bigX",
+  weight: "100 900",
+});
+
+const robert = localFont({
+  src: "./fonts/robert.otf",
+  variable: "--font-robert",
   weight: "100 900",
 });
 
@@ -14,7 +21,7 @@ export const metadata = {
   openGraph: {
     title: "Light UP -  لايت اب",
     description: "لايت اب هي منصه تساعدك علي تنفيذ مشاريع powerpoint, word office, etc.....",
-    images: [{url: '/site-assets/lightup.JPG'}],
+    images: [{url: '/blackLamp.jpeg'}],
   },
 };
 
@@ -24,9 +31,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${bigX.variable} `}
+        className={`${bigX.variable} ${robert.variable}`}
       >
-        <NavigationBar />
+        <BackgroundGrid boxSize={80} />
+        <GhostIcon fill='white' size={70} />
         {children}
       </body>
     </html>

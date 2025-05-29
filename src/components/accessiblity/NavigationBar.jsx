@@ -1,43 +1,30 @@
-'use client';
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
+import Link from "next/link";
 
 export default function NavigationBar() {
-  const containerRef = useRef(null);
-  const brandName = "LIGHT UP.. 💡  PROVIDE THE NEEDS";
-  const duplicates = 20; // Number of times to repeat the brand name
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const tl = gsap.timeline({ repeat: -1 });
-
-    tl.to(".scrolling-content", {
-      x: "-5000%",
-      duration: 700,
-      ease: "linear",
-      onComplete: () => {
-        gsap.set(".scrolling-content", { x: "0%" });
-      }
-    });
-
-    return () => {
-      tl.kill();
-    };
-  }, []);
-
-  const brandNameElements = Array(duplicates).fill(brandName).map((name, index) => (
-    <span key={index} className="mx-8 font-bold text-lg uppercase">
-      {name}
-    </span>
-  ));
 
   return (
-    <div className="w-full bg-transparent text-white overflow-hidden py-3 fixed top-0 z-30" ref={containerRef}>
-      <div className="scrolling-content flex whitespace-nowrap">
-        {brandNameElements}
-        {brandNameElements}
-      </div>
+    <div 
+      className="
+      w-full bg-transparent
+      flex justify-end items-center mt-3 gap-10 sm:gap-24
+      text-black overflow-hidden
+      p-3 fixed top-0 -z-0
+      font-robert
+      "
+    >
+      <Link
+        href='/profile/login'
+        className="hover:border-black border-transparent border-b-2 transition ease-out duration-400"
+      >
+        LOGIN
+      </Link>
+      <Link
+        href='/profile/sign'
+        className="hover:border-black border-transparent border-b-2 transition ease-out duration-400 mr-7"
+      >
+        SING IN
+      </Link>
+
     </div>
   );
 }

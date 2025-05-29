@@ -13,6 +13,7 @@ module.exports = {
       },
       fontFamily: {
         'bigX': ['var(--font-bigX)'],
+        'robert': ['var(--font-robert)'],
       },
     },
   },
