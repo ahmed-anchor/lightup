@@ -97,7 +97,7 @@ export default function page() {
           UP
         </h1>
       </div>
-      <ul className='font-robert flex text-3xl flex-col justify-center lg:w-fit w-full items-end pr-12 lg:pl-44 -mb-64 mt-12 gap-y-3'>
+      <ul className='font-robert flex text-3xl flex-col justify-center lg:w-fit w-full items-end pr-12 lg:pl-60 xl:pl-[400px] -mb-64 mt-12 gap-y-3'>
         <Link
           href='/profile/login'
           className='bg-black'
