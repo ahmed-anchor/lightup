@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import gsap from 'gsap';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 
 export const Spinner = ({ spinnerColor = 'blue-600' }) => {
@@ -295,19 +295,107 @@ export const SVGPhone = ({ color = 'white' }) => {
 
 
 
-export const BackgroundGrid = ({ boxSize = 60, pageHeight }) => {
-  const containerRef = useRef(null)
-  const [height,setHeight] = useState(0)
 
+export const BackgroundGrid = ({ 
+  boxSize = 60, 
+  pageHeight, 
+  minGridLines = 50,
+  expandThreshold = 200 // pixels from bottom to trigger expansion
+}) => {
+  const containerRef = useRef(null)
+  const [height, setHeight] = useState(0)
+  const [gridLines, setGridLines] = useState({ horizontal: minGridLines, vertical: 100 })
+  const [isExpanding, setIsExpanding] = useState(false)
+
+  // Calculate required grid lines based on content
+  const calculateGridSize = useCallback(() => {
+    const documentHeight = Math.max(
+      document.body.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight
+    )
+    
+    const viewportHeight = window.innerHeight
+    const targetHeight = pageHeight || Math.max(documentHeight, viewportHeight)
+    
+    const horizontalLines = Math.ceil(targetHeight / boxSize) + 20 // Extra buffer
+    const verticalLines = Math.ceil(window.innerWidth / boxSize) + 20
+    
+    return {
+      height: targetHeight,
+      horizontal: Math.max(horizontalLines, minGridLines),
+      vertical: Math.max(verticalLines, 50)
+    }
+  }, [boxSize, pageHeight, minGridLines])
+
+  // Handle scroll-based expansion
+  const handleScroll = useCallback(() => {
+    if (isExpanding) return
+    
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+    const windowHeight = window.innerHeight
+    const documentHeight = document.documentElement.scrollHeight
+    
+    // Check if user is near bottom
+    if (scrollTop + windowHeight >= documentHeight - expandThreshold) {
+      setIsExpanding(true)
+      
+      // Expand grid
+      setTimeout(() => {
+        const newSize = calculateGridSize()
+        setHeight(newSize.height + windowHeight) // Add extra height
+        setGridLines(prev => ({
+          horizontal: prev.horizontal + 30,
+          vertical: prev.vertical
+        }))
+        setIsExpanding(false)
+      }, 100)
+    }
+  }, [calculateGridSize, expandThreshold, isExpanding])
+
+  // Initialize and handle resize
+  useEffect(() => {
+    const updateGrid = () => {
+      const newSize = calculateGridSize()
+      setHeight(newSize.height)
+      setGridLines(newSize)
+    }
+
+    updateGrid()
+    
+    const handleResize = () => {
+      updateGrid()
+    }
+
+    window.addEventListener('resize', handleResize)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    // Also listen for content changes
+    const observer = new MutationObserver(updateGrid)
+    observer.observe(document.body, { 
+      childList: true, 
+      subtree: true, 
+      attributes: true 
+    })
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('scroll', handleScroll)
+      observer.disconnect()
+    }
+  }, [calculateGridSize, handleScroll])
+
+  // GSAP animation
   useEffect(() => {
     const lines = containerRef.current?.querySelectorAll('.horizontal-line')
     if (!lines) return
 
     lines.forEach((line) => {
-
       gsap.fromTo(
         line,
-        { y: 0, },
+        { y: 0 },
         {
           y: boxSize,
           duration: 7,
@@ -316,24 +404,19 @@ export const BackgroundGrid = ({ boxSize = 60, pageHeight }) => {
         }
       )
     })
+  }, [boxSize, gridLines.horizontal])
 
-    if(pageHeight) {
-      setHeight(pageHeight)
-      return
-    }
-    setHeight(window.innerHeight)
-
-  }, [boxSize])
-
-  
   return (
     <div
       ref={containerRef}
-      className={`gradient-top w-screen  bg-[#ECEBE8] overflow-x-hidden absolute -z-10`}
-      style={{ minHeight: height }}
+      className="gradient-top w-screen bg-[#ECEBE8] overflow-x-hidden absolute -z-10"
+      style={{ 
+        minHeight: height,
+        transition: 'min-height 0.3s ease-out'
+      }}
     >
       {/* Vertical lines */}
-      {Array.from({ length: 100 }).map((_, i) => (
+      {Array.from({ length: gridLines.vertical }).map((_, i) => (
         <div
           key={`v-${i}`}
           className="absolute top-0 h-full border-r border-[#ECEBE8] -ml-16"
@@ -342,13 +425,14 @@ export const BackgroundGrid = ({ boxSize = 60, pageHeight }) => {
       ))}
 
       {/* Horizontal lines with GSAP class */}
-      {Array.from({ length: 1000 }).map((_, i) => (
+      {Array.from({ length: gridLines.horizontal }).map((_, i) => (
         <div
           key={`h-${i}`}
           className="horizontal-line absolute left-0 w-full border-t border-[#ECEBE8]"
           style={{ top: `${i * boxSize}px` }}
         />
       ))}
+      
     </div>
   )
 }

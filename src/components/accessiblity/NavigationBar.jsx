@@ -13,7 +13,7 @@ export default function NavigationBar() {
       "
     >
       <Link
-        href='/profile/sign'
+        href='/profile'
         className="hover:border-black border-transparent border-b-2 transition ease-out duration-300 mr-7"
       >
         START CAREER

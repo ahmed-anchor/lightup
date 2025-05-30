@@ -98,19 +98,19 @@ export default function page() {
       </div>
       <ul className=' font-robert font-medium flex text-3xl flex-col justify-center lg:w-fit w-full items-end pr-12 lg:pl-40 xl:pl-[420px] -mt-12 sm:-mt-10 lg:mt-60 gap-y-10'>
         <Link
-          href='/profile/login'
+          href='/jobs'
           className='bg-black mr-7 rotate-3 hover:rotate-0 transition ease-out duration-200 text-nowrap'
         >
           Jobs
         </Link>
         <Link
-          href='/profile/sign'
+          href='/ai'
           className='bg-black mr-6 -rotate-3 hover:-rotate-0 transition ease-out duration-200 text-nowrap'
         >
           Ai Services
         </Link>
         <Link
-          href='/profile'
+          href='/order'
           className='bg-black mr-3 rotate-3 hover:rotate-0 transition ease-out duration-200 text-nowrap'
         >
         Order Now

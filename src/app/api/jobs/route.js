@@ -6,18 +6,19 @@ import connectDB from "../../../../lib/database";
 
 export async function POST (req) {
   try {
-    const { name, description } = req.json()
-    console.log(name, description)
-    if( !name || !description ) {
+    const { name, description, phone } = await req.json()
+    if( !name || !description || !phone ) {
       return NextResponse.json(
         { message: 'املأ كل البيانات' },
         { status: 400 }
       )
     }
+    await connectDB();
     
-    await JobModel.create({
-        name,
-        description
+    const res = await JobModel.create({
+      name: name.trim(),
+      description: description.trim(),
+      phone: phone.trim()
     })
   
     return NextResponse.json(
@@ -25,6 +26,7 @@ export async function POST (req) {
       { status: 200 }
     )
   } catch(error) {
+    console.log(error)
     return NextResponse.json(
       { message: 'هناك مشكله في السرفر' },
       { status: 500 }

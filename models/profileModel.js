@@ -1,8 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 const projectSchema = new Schema({
-  projectName: { type: String, required: true },
-  price: { type: Number, required: true }
+  id: { type: String, required: true },
 });
 
 const profileSchema = new Schema({

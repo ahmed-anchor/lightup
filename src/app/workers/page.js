@@ -29,20 +29,20 @@ export default function page() {
   , [])
 
   return (
-    <div className="flex flex-col justify-center items-center text-white w-screen min-h-screen font-bigX absolute left-0 z-20 top-0 overflow-scroll">
-      <h1 className="text-4xl text-center font-bold mt-10 absolute md:top-10 top-4">مستقليين</h1>
+    <div className="flex flex-col justify-center items-center text-white w-screen min-h-screen absolute left-0 z-20 top-0 overflow-scroll">
+      <h1 className="text-4xl font-bigX text-center font-bold mt-10 absolute md:top-10 top-4">مستقلين</h1>
       {
         loading? <Spinner spinnerColor="white" />:
         error? <h1 className="text-4xl">{error}</h1>:
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-32 sm:mt-28 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-32 sm:mt-44 font-robert uppercase pb-40">
           {workers.map((worker) => (
             <div
               key={worker._id} 
               className=" w-[300px] p-4 rounded-sm shadow bg-[#0000008d]"
             >
               <Image width={400} height={400} src={worker.image} alt={worker.name} className="w-full h-auto " />
-              <h2 className="text-3xl font-bold mt-2">{worker.name}</h2>
-              <p className="text-2xl">+2{worker.phone}</p>
+              <h2 className="text-xl font-bold mt-2">{worker.name}</h2>
+              <p className="text-lg">+2{worker.phone}</p>
             </div>
           ))}
         </div>
