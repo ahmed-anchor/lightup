@@ -13,13 +13,21 @@ export async function POST(req) {
     const isValid = isValidData(Object.fromEntries(data))
     if(!isValid.valid) return isValid.res
 
+    const usersCount = await ProfileModel.countDocuments()
+    if(usersCount >= 20) {
+      return NextResponse.json(
+        { message: 'هذا الحد الاقصي للمطورين' },
+        { status: 300 }
+      )
+    }
+
     const checker = await ProfileModel
     .findOne({ phone: phone.trim() })
     .select('name -_id')
     .lean();
     if (checker) {
       return NextResponse.json(
-        { message: `هذا الرقم بالفعل موجود بإسم ${name}` },
+        { message: `هذا الرقم بالفعل موجود بإسم ${checker.name}` },
         { status: 300 }
       );
     };
@@ -35,6 +43,7 @@ export async function POST(req) {
       token: token,
       image: outputBuffer
     });
+
 
     return NextResponse.json(
       { message: 'تم ارسال البيانات بنجاح' },

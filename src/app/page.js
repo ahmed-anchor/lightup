@@ -34,7 +34,6 @@ export default function page() {
     
     // Animate LIGHT characters appearing
     tl.to(lightCharSpans, {
-      delay: .3,
       opacity: 1,
       duration: 0.4,
       stagger: 0.08,
@@ -75,7 +74,7 @@ export default function page() {
     tl.call(() => {
       setTimeout(() => {
         tl.restart()
-      }, 1000)
+      }, 600)
     })
 
   }, [])
@@ -97,24 +96,30 @@ export default function page() {
           UP
         </h1>
       </div>
-      <ul className=' font-robert font-medium flex text-3xl flex-col justify-center lg:w-fit w-full items-end pr-12 lg:pl-60 xl:pl-[400px] -mb-64 mt-12 gap-y-3'>
+      <ul className=' font-robert font-medium flex text-3xl flex-col justify-center lg:w-fit w-full items-end pr-12 lg:pl-40 xl:pl-[420px] -mt-12 sm:-mt-10 lg:mt-60 gap-y-10'>
         <Link
           href='/profile/login'
-          className='bg-black'
+          className='bg-black mr-7 rotate-3 hover:rotate-0 transition ease-out duration-200 text-nowrap'
         >
           Jobs
         </Link>
         <Link
           href='/profile/sign'
-          className='bg-black'
+          className='bg-black mr-6 -rotate-3 hover:-rotate-0 transition ease-out duration-200 text-nowrap'
         >
           Ai Services
         </Link>
         <Link
           href='/profile'
-          className='bg-black'
+          className='bg-black mr-3 rotate-3 hover:rotate-0 transition ease-out duration-200 text-nowrap'
         >
-          Profile
+        Order Now
+        </Link>
+        <Link
+          href='/workers'
+          className='bg-black mr-3 -rotate-1 hover:-rotate-0 transition ease-out duration-200 text-nowrap'
+        >
+          require Dev
         </Link>
       </ul>
     </div>

@@ -1,7 +1,8 @@
 'use client';
 import React from 'react';
 import gsap from 'gsap';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
 
 export const Spinner = ({ spinnerColor = 'blue-600' }) => {
   
@@ -25,74 +26,77 @@ export const Spinner = ({ spinnerColor = 'blue-600' }) => {
 
 export const GhostIcon = ({ fill = "#000000", size = 70 }) => {
   const svgRef = useRef(null)
+  const [isSigned, setSign] = useState(null)
 
   useEffect(() => {
     const svg = svgRef.current
     
-    // Create explosive shaking animation with initial delay
-    const tl = gsap.timeline({ repeat: -1, delay: .01 })
+    if(!isSigned && svg) {
+      // Create explosive shaking animation with initial delay
+      const tl = gsap.timeline({ repeat: -1, delay: .01 })
+      
+      // Add initial delay before starting the shake sequence
+      tl.to({}, { duration: 2 }) // 2 second delay before shaking starts
+      
+      // Initial gentle shake
+      tl.to(svg, {
+        x: "random(-2, 2)",
+        y: "random(-2, 2)",
+        rotation: "random(-1, 1)",
+        duration: 0.05,
+        ease: "none"
+      })
+      
+      // Intensify the shake
+      tl.to(svg, {
+        x: "random(-4, 4)",
+        y: "random(-4, 4)",
+        rotation: "random(-2, 2)",
+        duration: 0.05,
+        ease: "none"
+      })
+      
+      // Even more intense
+      tl.to(svg, {
+        x: "random(-6, 6)",
+        y: "random(-6, 6)",
+        rotation: "random(-3, 3)",
+        duration: 0.04,
+        ease: "none"
+      })
+      
+      // Maximum intensity
+      tl.to(svg, {
+        x: "random(-3, 8)",
+        y: "random(-8, 8)",
+        rotation: "random(-4, 40)",
+        duration: 0.03,
+        ease: "none"
+      })
+      
+      // Quick burst shake
+      tl.to(svg, {
+        x: "random(-6, 10)",
+        y: "random(-10, 10)",
+        rotation: "random(-2, 50)",
+        duration: 0.02,
+        ease: "none",
+        repeat: 3,
+        yoyo: true
+      })
+      
+      // Brief pause before restarting
+      tl.to(svg, {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        duration: 0.1,
+        ease: "power2.out"
+      })
+    }
     
-    // Add initial delay before starting the shake sequence
-    tl.to({}, { duration: 2 }) // 2 second delay before shaking starts
     
-    // Initial gentle shake
-    tl.to(svg, {
-      x: "random(-2, 2)",
-      y: "random(-2, 2)",
-      rotation: "random(-1, 1)",
-      duration: 0.05,
-      ease: "none"
-    })
-    
-    // Intensify the shake
-    tl.to(svg, {
-      x: "random(-4, 4)",
-      y: "random(-4, 4)",
-      rotation: "random(-2, 2)",
-      duration: 0.05,
-      ease: "none"
-    })
-    
-    // Even more intense
-    tl.to(svg, {
-      x: "random(-6, 6)",
-      y: "random(-6, 6)",
-      rotation: "random(-3, 3)",
-      duration: 0.04,
-      ease: "none"
-    })
-    
-    // Maximum intensity
-    tl.to(svg, {
-      x: "random(-3, 8)",
-      y: "random(-8, 8)",
-      rotation: "random(-4, 4)",
-      duration: 0.03,
-      ease: "none"
-    })
-    
-    // Quick burst shake
-    tl.to(svg, {
-      x: "random(-6, 10)",
-      y: "random(-10, 10)",
-      rotation: "random(-5, 5)",
-      duration: 0.02,
-      ease: "none",
-      repeat: 3,
-      yoyo: true
-    })
-    
-    // Brief pause before restarting
-    tl.to(svg, {
-      x: 0,
-      y: 0,
-      rotation: 0,
-      duration: 0.1,
-      ease: "power2.out"
-    })
-    
-    
-  }, [])
+  }, [isSigned])
 
   return (
     <svg
@@ -105,7 +109,7 @@ export const GhostIcon = ({ fill = "#000000", size = 70 }) => {
       viewBox="0 0 70 70"
       enableBackground="new 0 0 70 70"
       xmlSpace="preserve"
-      className="fixed bottom-8 left-4 rounded-3xl"
+      className="fixed bottom-8 left-4 rounded-3xl cursor-pointer mix-blend-difference"
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -157,6 +161,22 @@ export const Logo = () => {
     </svg>
   );
 };
+
+export function SVGAddImage({ color = "#000000", size = 24 }) {
+  return (
+    <svg 
+      viewBox="0 0 24 24" 
+      fill={color}
+      width={size}
+      height={size}
+    >
+      <rect x="0" fill="none" width="24" height="24" />
+      <g>
+        <path d="M23 4v2h-3v3h-2V6h-3V4h3V1h2v3h3zm-8.5 7c.828 0 1.5-.672 1.5-1.5S15.328 8 14.5 8 13 8.672 13 9.5s.672 1.5 1.5 1.5zm3.5 3.234l-.513-.57c-.794-.885-2.18-.885-2.976 0l-.655.73L9 9l-3 3.333V6h7V4H6c-1.105 0-2 .895-2 2v12c0 1.105.895 2 2 2h12c1.105 0 2-.895 2-2v-7h-2v3.234z" />
+      </g>
+    </svg>
+  );
+}
 
 export const SVGProfile = () => {
   return (

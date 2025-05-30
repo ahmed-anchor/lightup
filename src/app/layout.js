@@ -1,10 +1,21 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { BackgroundGrid, GhostIcon } from "@/components/Statics";
+import Overlay from "./overlay";
 
 
 const bigX = localFont({
-  src: "./fonts/local-font.otf",
+  src: [
+    {
+      path: "./fonts/Cairo-Light.ttf",
+      style: 'normal'
+    },
+    {
+      path: "./fonts/Cairo-Regular.ttf",
+      style: 'normal'
+    },
+
+  ],
   variable: "--font-bigX",
   weight: "100 900",
 });
@@ -14,6 +25,7 @@ const robert = localFont({
   variable: "--font-robert",
   weight: "100 900",
 });
+
 
 export const metadata = {
   title: " Light UP - لايت اب",
@@ -33,9 +45,9 @@ export default function RootLayout({
       <body
         className={`${bigX.variable} ${robert.variable} overscroll-none`}
       >
-        <BackgroundGrid boxSize={80} />
+        <BackgroundGrid boxSize={100} />
         <GhostIcon fill='white' size={70} />
-        {children}
+        <Overlay children={children} />
       </body>
     </html>
   );
