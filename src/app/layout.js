@@ -45,7 +45,6 @@ export default function RootLayout({
         className={`${bigX.variable} ${robert.variable} overscroll-none`}
       >
         <BackgroundGrid boxSize={100} />
-        <GhostIcon fill='white' size={70} />
         {children}
       </body>
     </html>
