@@ -29,7 +29,7 @@ export default function page() {
   , [])
 
   return (
-    <div className="flex flex-col justify-center items-center text-white w-screen min-h-screen font-bigX absolute left-0 z-20 top-0">
+    <div className="flex flex-col justify-center items-center text-white w-screen min-h-screen font-bigX absolute left-0 z-20 top-0 overflow-scroll">
       <h1 className="text-4xl text-center font-bold mt-10 absolute md:top-10 top-4">مستقليين</h1>
       {
         loading? <Spinner spinnerColor="white" />:

@@ -295,8 +295,9 @@ export const SVGPhone = ({ color = 'white' }) => {
 
 
 
-export const BackgroundGrid = ({ boxSize = 60 }) => {
+export const BackgroundGrid = ({ boxSize = 60, pageHeight }) => {
   const containerRef = useRef(null)
+  const [height,setHeight] = useState(0)
 
   useEffect(() => {
     const lines = containerRef.current?.querySelectorAll('.horizontal-line')
@@ -315,12 +316,21 @@ export const BackgroundGrid = ({ boxSize = 60 }) => {
         }
       )
     })
+
+    if(pageHeight) {
+      setHeight(pageHeight)
+      return
+    }
+    setHeight(window.innerHeight)
+
   }, [boxSize])
 
+  
   return (
     <div
       ref={containerRef}
-      className="gradient-top w-screen h-screen bg-[#ECEBE8] overflow-hidden absolute -z-10"
+      className={`gradient-top w-screen  bg-[#ECEBE8] overflow-x-hidden absolute -z-10`}
+      style={{ minHeight: height }}
     >
       {/* Vertical lines */}
       {Array.from({ length: 100 }).map((_, i) => (
@@ -332,7 +342,7 @@ export const BackgroundGrid = ({ boxSize = 60 }) => {
       ))}
 
       {/* Horizontal lines with GSAP class */}
-      {Array.from({ length: 100 }).map((_, i) => (
+      {Array.from({ length: 1000 }).map((_, i) => (
         <div
           key={`h-${i}`}
           className="horizontal-line absolute left-0 w-full border-t border-[#ECEBE8]"
