@@ -1,7 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { BackgroundGrid, GhostIcon } from "@/components/Statics";
-import Overlay from "./overlay";
 
 
 const bigX = localFont({
@@ -47,7 +46,7 @@ export default function RootLayout({
       >
         <BackgroundGrid boxSize={100} />
         <GhostIcon fill='white' size={70} />
-        <Overlay children={children} />
+        {children}
       </body>
     </html>
   );
