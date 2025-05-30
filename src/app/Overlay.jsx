@@ -23,6 +23,8 @@ export default function Overlay({children}) {
   });
 
   return (
-    children
+    <>
+      {children}
+    </>
   )
 }
